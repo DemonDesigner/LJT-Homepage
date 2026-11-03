@@ -10,10 +10,17 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/jekyll-build-pages@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.328.0
         with:
-          source: ./
-          destination: ./_site
+          ruby-version: '3.1'
+          bundler-cache: true
+          cache-version: 0
+      - name: Build with Jekyll
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
